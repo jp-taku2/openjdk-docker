@@ -10,16 +10,13 @@ jobs:
      runs-on: ubuntu-latest
      steps:
      - uses: actions/checkout@v1
-     - uses: azure/docker-login@v1
-       with:
-         login-server: '<login server>' # default: index.docker.io
-         username: ${{ secrets.DOCKER_USERNAME }}
-         password: ${{ secrets.DOCKER_PASSWORD }}
-     - name: Build, tag, and push image to Amazon ECR
+     - name: Build, tag, and push image to Docker Hub
        env:
          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
          DOCKER_REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
        run: |
          IMAGE_TAG=$(git rev-parse HEAD)
+         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
          docker build -t $DOCKER_USERNAME/$DOCKER_REPOSITORY:$IMAGE_TAG .
          docker push $DOCKER_USERNAME/$DOCKER_REPOSITORY:$IMAGE_TAG
