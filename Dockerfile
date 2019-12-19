@@ -5,4 +5,3 @@ RUN apt-get update && \
     apt-get install -y openjdk-11-jdk && \
     apt-get autoremove && \ 
     apt-get clean
-
