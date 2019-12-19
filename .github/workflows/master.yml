@@ -16,7 +16,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
         run: |
-          IMAGE_TAG=$(git rev-parse HEAD^2)
+          IMAGE_TAG=$(git rev-list HEAD -n 2| tail -n 1)
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker pull $DOCKER_USERNAME/$DOCKER_REPOSITORY:$IMAGE_TAG
           docker tag $DOCKER_USERNAME/$DOCKER_REPOSITORY:$IMAGE_TAG $DOCKER_USERNAME/$DOCKER_REPOSITORY:latest
